@@ -29,25 +29,44 @@ function isTargetReachable(url) {
 
 	return pify(dns.lookup)(hostname).then(address => {
 		if (!address) {
-			return false;
+			return {
+				reachable: false,
+				reason: "dns"
+			};
 		}
 
+
 		if (routerIps.has(address)) {
-			return false;
+
+
+			return {
+				reachable: false,
+				reason: "routerips"
+			};
 		}
 
 		if (protocol === 'http:' || protocol === 'https:') {
 			return checkRedirection(url);
 		}
-
-		return isPortReachable(port, {host: address});
-	}).catch(() => false);
+		return isPortReachable(port, {
+			host: address
+		});
+	}).catch(function () {
+		return {
+			reachable: false,
+			reason: "port"
+		};
+	});
 }
 
 module.exports = (dests, opts) => {
 	opts = opts || {};
 	opts.timeout = typeof opts.timeout === 'number' ? opts.timeout : 5000;
-
 	const p = pAny(arrify(dests).map(isTargetReachable));
-	return pTimeout(p, opts.timeout).catch(() => false);
+	return pTimeout(p, opts.timeout).catch(function () {
+		return {
+			reachable: false,
+			reason: "timeout"
+		};
+	});
 };
