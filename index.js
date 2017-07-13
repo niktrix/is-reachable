@@ -13,7 +13,11 @@ const URL = require('url-parse');
 
 const checkRedirection = url => {
 	return got(url).then(res => {
-		return !routerIps.has((new URL(res.headers.location || '')).hostname);
+	return	{
+				reachable: !routerIps.has((new URL(res.headers.location || '')).hostname),
+				reason: "routerips"
+			}
+		 
 	}).catch(() => false);
 };
 
