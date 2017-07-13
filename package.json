@@ -1,14 +1,9 @@
 {
-  "name": "is-reachable",
+  "name": "is-reachable-r",
   "version": "2.3.3",
-  "description": "Check if servers are reachable",
+  "description": "Check if servers are reachable return with reason, forked from Sindresorhus",
   "license": "MIT",
-  "repository": "sindresorhus/is-reachable",
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
-  },
+  "repository": "niktrix/is-reachable"
   "contributors": [
     "silverwind <me@silverwind.io> (github.com/silverwind)"
   ],
